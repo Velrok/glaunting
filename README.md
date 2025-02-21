@@ -3,17 +3,22 @@
 ## Usage
 
 ```sh
-glaunting subaccount create --name=<name> --type=[credit/debit]
-glaunting subaccount list
+glaunting ledger create --name=<name>
+glaunting ledger list
 
-glaunting transaction create --label='some description' --effective=2025-01-02 --applied=2025-03-21 --entry 'credit <subaccount> <amount>' --entry 'debit <other-subaccount> <amount>'
-glaunting transaction list --order=[applied/effective]
+glaunting subaccount create --ledger=<ledger> --name=<name> --type=[credit/debit]
+glaunting subaccount list --ledger=<ledger>
 
-glaunting balance --account=<subaccount> --order=[applied/effective]
+glaunting transaction create --ledger=<ledger>  --label='some description' --effective=2025-01-02 --applied=2025-03-21 --entry 'credit <subaccount> <amount>' --entry 'debit <other-subaccount> <amount>'
+glaunting transaction list --ledger=<ledger> --order=[applied/effective]
+
+glaunting balance --ledger=<ledger> --account=<subaccount> --order=[applied/effective]
 ```
 
 ## Todo
 
+ - [ ] glaunting ledger list
+ - [ ] glaunting ledger create
  - [ ] glaunting subaccount create
  - [ ] glaunting subaccount list
  - [ ] glaunting transaction create
