@@ -21,8 +21,8 @@ glaunting balance --ledger=<ledger> --account=<subaccount> --order=[applied/effe
 
 ## Todo
 
- - [ ] glaunting ledger list
- - [ ] glaunting ledger create
+ - [x] glaunting ledger list
+ - [x] glaunting ledger create
  - [ ] glaunting subaccount create
  - [ ] glaunting subaccount list
  - [ ] glaunting transaction create
