@@ -30,11 +30,11 @@ fn create(args: List(String)) {
   io.debug(labeled_args)
 }
 
-type LabeledArg {
+pub type LabeledArg {
   LabeledArg(label: String, value: String)
 }
 
-fn parse_labeled_argument(arg_string: String) {
+pub fn parse_labeled_argument(arg_string: String) {
   let pattern = "--([\\w_-]+)=(.*)"
   let assert Ok(compiled_regex) = regexp.from_string(pattern)
   case regexp.scan(compiled_regex, arg_string) {
