@@ -1,6 +1,7 @@
 import db/sqlite
 import domain
 import gleam/dict
+import gleam/int
 import gleam/io
 import gleam/list
 import gleam/option.{Some}
@@ -20,15 +21,28 @@ glaunting ledger list
 pub fn ledger(arguments: List(String)) {
   io.println("|> ledger")
   io.debug(arguments)
-  case arguments {
-    ["create", ..args] -> create(args)
+  let _ = case arguments {
+    ["create", ..args] -> create_ledger(args)
+    ["list"] -> list_ledgers()
     _ -> panic as "Unknown command"
   }
 
   Nil
 }
 
-fn create(args: List(String)) {
+fn list_ledgers() {
+  io.println("Ledgers:")
+  list.map(sqlite.all_ledgers(), fn(ledger) {
+    let version = int.to_string(ledger.version)
+    let assert Some(id) = ledger.id
+    let id = int.to_string(id)
+
+    io.println(ledger.name <> "(" <> id <> ")" <> " verison:" <> version)
+  })
+  Nil
+}
+
+fn create_ledger(args: List(String)) {
   let parsed_args =
     list.map(args, parse_labeled_argument)
     |> dict.from_list()
@@ -39,9 +53,8 @@ fn create(args: List(String)) {
     Ok(name) -> domain.new_ledger(name)
   }
 
-  sqlite.insert_ledger(ledger)
-  // convert labeled_args into Ledger
-  // write Ledger to db
+  let _ = sqlite.insert_ledger(ledger)
+  Nil
 }
 
 pub fn parse_labeled_argument(arg_string: String) {
