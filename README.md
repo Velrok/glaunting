@@ -1,5 +1,9 @@
 # Gleam Accounting -> glaunting
 
+## setup
+
+To create a local db run `gleam run -m db/sqlite`
+
 ## Usage
 
 ```sh

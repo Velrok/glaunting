@@ -5,16 +5,19 @@ CREATE TABLE ledgers (
 
 CREATE TABLE transactions (
   Id INTEGER PRIMARY KEY AUTOINCREMENT,
-  label String,
-  ledger_version INTEGER, -- FK
-  ledger_id -- FK
-  applied_at  -- timestamp
-  effective_at -- timestamp
+  label TEXT,
+  ledger_version INTEGER,
+  ledger_id INTEGER,       -- Foreign Key to `ledgers.Id`
+  applied_at TIMESTAMP,    -- Timestamp for when the transaction is applied
+  effective_at TIMESTAMP,  -- Timestamp for when the transaction becomes effective
+  FOREIGN KEY (ledger_id) REFERENCES ledgers(Id)
 );
 
 CREATE TABLE entries (
   Id INTEGER PRIMARY KEY AUTOINCREMENT,
-  transaction_id -- FK
-  type -- either credit OR debit
-  amount -- amount in cents, can be fractional
+  transaction_id INTEGER,  -- Foreign Key to `transactions.Id`
+  type TEXT CHECK(type IN ('credit', 'debit')),  -- Enforcing 'credit' or 'debit'
+  amount REAL,          -- Amount in cents, allowing for fractional values
+  FOREIGN KEY (transaction_id) REFERENCES transactions(Id)
 );
+;
