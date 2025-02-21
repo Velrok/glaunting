@@ -1,5 +1,6 @@
 CREATE TABLE ledgers (
   Id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name Text,
   version INTEGER
 );
 
