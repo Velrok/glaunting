@@ -1,3 +1,6 @@
+import db/sqlite
+import domain
+import gleam/dict
 import gleam/io
 import gleam/list
 import gleam/option.{Some}
@@ -26,12 +29,19 @@ pub fn ledger(arguments: List(String)) {
 }
 
 fn create(args: List(String)) {
-  let labeled_args = list.map(args, parse_labeled_argument)
-  io.debug(labeled_args)
-}
+  let parsed_args =
+    list.map(args, parse_labeled_argument)
+    |> dict.from_list()
+  io.debug(parsed_args)
 
-pub type LabeledArg {
-  LabeledArg(label: String, value: String)
+  let ledger = case dict.get(parsed_args, "name") {
+    Error(_) -> panic
+    Ok(name) -> domain.new_ledger(name)
+  }
+
+  sqlite.insert_ledger(ledger)
+  // convert labeled_args into Ledger
+  // write Ledger to db
 }
 
 pub fn parse_labeled_argument(arg_string: String) {
@@ -40,7 +50,7 @@ pub fn parse_labeled_argument(arg_string: String) {
   case regexp.scan(compiled_regex, arg_string) {
     [match] ->
       case match.submatches {
-        [Some(label), Some(value)] -> LabeledArg(label: label, value: value)
+        [Some(label), Some(value)] -> #(label, value)
         _ -> panic
       }
     _ -> panic as "invalid labled argumen"
