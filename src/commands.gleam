@@ -6,6 +6,8 @@ import gleam/regexp
 pub fn print_help() {
   io.println(
     "
+# This is the help
+
 glaunting ledger create --name=<name>
 glaunting ledger list
   ",
