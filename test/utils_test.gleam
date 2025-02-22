@@ -1,6 +1,6 @@
-import commands.{parse_labeled_argument}
 import gleeunit
 import gleeunit/should
+import utils.{parse_labeled_argument}
 
 pub fn main() {
   gleeunit.main()
