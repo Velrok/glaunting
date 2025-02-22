@@ -1,5 +1,4 @@
-import db/sqlite
-import domain
+import domain/ledgers
 import gleam/dict
 import gleam/int
 import gleam/io
@@ -9,7 +8,7 @@ import utils
 
 pub fn list() {
   io.println("Ledgers:")
-  list.map(sqlite.all_ledgers(), fn(ledger) {
+  list.map(ledgers.all(), fn(ledger) {
     let version = int.to_string(ledger.version)
     let assert Some(id) = ledger.id
     let id = int.to_string(id)
@@ -27,9 +26,8 @@ pub fn create(args: List(String)) {
 
   let ledger = case dict.get(parsed_args, "name") {
     Error(_) -> panic
-    Ok(name) -> domain.new_ledger(name)
+    Ok(name) -> ledgers.new(name)
   }
 
-  let _ = sqlite.insert_ledger(ledger)
-  Nil
+  let assert Ok(_) = ledgers.insert(ledger)
 }

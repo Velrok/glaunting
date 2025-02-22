@@ -16,7 +16,10 @@ pub fn ledger(arguments: List(String)) {
   io.println("|> ledger")
   io.debug(arguments)
   let _ = case arguments {
-    ["create", ..args] -> ledger.create(args)
+    ["create", ..args] -> {
+      let assert Ok(_) = ledger.create(args)
+      Nil
+    }
     ["list"] -> ledger.list()
     _ -> panic as "Unknown command"
   }
