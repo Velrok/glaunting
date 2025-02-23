@@ -22,7 +22,6 @@ pub fn create(args: List(String)) {
   let parsed_args =
     list.map(args, utils.parse_labeled_argument)
     |> dict.from_list()
-  io.debug(parsed_args)
 
   let ledger = case dict.get(parsed_args, "name") {
     Error(_) -> panic
