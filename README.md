@@ -1,5 +1,9 @@
 # Gleam Accounting -> glaunting
 
+## ⚠️Warning
+
+> This is a hobby project. Not production ready by any means.
+
 ## setup
 
 To create a local db run `gleam run -m db/sqlite`
