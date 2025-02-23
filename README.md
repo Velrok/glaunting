@@ -23,8 +23,8 @@ glaunting balance --ledger=<ledger> --account=<subaccount> --order=[applied/effe
 
  - [x] glaunting ledger list
  - [x] glaunting ledger create
- - [ ] glaunting subaccount create
- - [ ] glaunting subaccount list
+ - [x] glaunting subaccount create
+ - [x] glaunting subaccount list
  - [ ] glaunting transaction create
  - [ ] glaunting transaction list
  - [ ] glaunting balance
