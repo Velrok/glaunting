@@ -1,11 +1,8 @@
 import argv
 import commands
-import gleam/io
 
 pub fn main() {
-  io.println("|> MAIN <|")
   let arguments = argv.load().arguments
-  io.debug(arguments)
   case arguments {
     [] -> commands.print_help()
     ["help"] -> commands.print_help()
@@ -13,6 +10,7 @@ pub fn main() {
     ["-h"] -> commands.print_help()
 
     ["ledger", ..rest] -> commands.ledger(rest)
-    [_, ..] -> todo
+    ["sub_account", ..rest] -> commands.sub_account(rest)
+    [_, ..] -> panic as "unknown sub command"
   }
 }

@@ -1,5 +1,6 @@
 import db/sqlite
 import domain/acounting.{type Movement}
+import domain/ledgers.{type Ledger}
 import gleam/dynamic/decode
 import gleam/int
 import gleam/io
@@ -14,13 +15,32 @@ pub type SubAccount {
   )
 }
 
-pub fn new(label: String, ledger_id: Int, normal_type: Movement) {
+pub fn new(label: String, ledger: Ledger, normal_type: Movement) {
+  let assert Some(ledger_id) = ledger.id
+
   SubAccount(
     id: None,
     label: label,
     ledger_id: ledger_id,
     normal_type: normal_type,
   )
+}
+
+pub fn to_string(sub_account: SubAccount) -> String {
+  let id = case sub_account.id {
+    None -> "∅"
+    Some(id) -> int.to_string(id)
+  }
+  let ledger_id = int.to_string(sub_account.ledger_id)
+
+  sub_account.label
+  <> " ("
+  <> id
+  <> ") "
+  <> "Ledger ID: "
+  <> ledger_id
+  <> " Type: "
+  <> acounting.to_string(sub_account.normal_type)
 }
 
 pub fn insert(sub_account: SubAccount) {
@@ -51,9 +71,11 @@ pub fn all() -> List(SubAccount) {
     ))
   }
   let sql = "SELECT id, label, ledger_id, normal_type FROM sub_accounts;"
-  io.debug(sql)
   case sqlite.query(sql, [], sub_account_decoder) {
-    Error(_) -> panic
+    Error(err) -> {
+      io.println(err.message)
+      panic
+    }
     Ok(sub_accounts) -> sub_accounts
   }
 }
