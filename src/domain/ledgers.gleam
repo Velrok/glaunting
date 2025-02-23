@@ -18,16 +18,27 @@ VALUES ('" <> ledger.name <> "', " <> int.to_string(ledger.version) <> ");"
   sqlite.exec(sql)
 }
 
+fn ledger_decoder() {
+  use id <- decode.field(0, decode.int)
+  use name <- decode.field(1, decode.string)
+  use version <- decode.field(2, decode.int)
+  decode.success(Ledger(id: Some(id), name: name, version: version))
+}
+
 pub fn all() -> List(Ledger) {
-  let ledger_decoder = {
-    use id <- decode.field(0, decode.int)
-    use name <- decode.field(1, decode.string)
-    use version <- decode.field(2, decode.int)
-    decode.success(Ledger(id: Some(id), name: name, version: version))
-  }
   let sql = "select id, name, version from ledgers;"
-  io.debug(sql)
-  case sqlite.query(sql, [], ledger_decoder) {
+  case sqlite.query(sql, [], ledger_decoder()) {
+    Error(_) -> panic
+    Ok(ledgers) -> ledgers
+  }
+}
+
+pub fn for_name(name: String) -> List(Ledger) {
+  let sql = "SELECT id, name, version
+    FROM ledgers
+    WHERE name = '" <> name <> "'
+    ;"
+  case sqlite.query(sql, [], ledger_decoder()) {
     Error(_) -> panic
     Ok(ledgers) -> ledgers
   }
