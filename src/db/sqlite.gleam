@@ -17,12 +17,12 @@ pub fn main() {
 
 pub fn exec(sql) {
   use conn <- sqlight.with_connection(db_path)
-  io.debug(sql)
+  io.debug("EXEC: " <> sql)
   sqlight.exec(sql, conn)
 }
 
 pub fn query(sql, with, expecting) {
   use conn <- sqlight.with_connection(db_path)
-  io.debug(sql)
+  io.debug("QUERY: " <> sql)
   sqlight.query(sql, on: conn, with:, expecting:)
 }
