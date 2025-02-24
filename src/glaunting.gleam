@@ -1,22 +1,25 @@
 import argv
-import commands
+import commands/help
+import commands/ledger
+import commands/sub_account
+import commands/transaction
 
 pub fn main() {
   let arguments = argv.load().arguments
   case arguments {
-    [] -> commands.print_help()
-    ["help"] -> commands.print_help()
-    ["--help"] -> commands.print_help()
-    ["-h"] -> commands.print_help()
+    [] -> help.handle()
+    ["help"] -> help.handle()
+    ["--help"] -> help.handle()
+    ["-h"] -> help.handle()
 
-    ["ledger", ..rest] -> commands.ledger(rest)
-    ["ledgers", ..rest] -> commands.ledger(rest)
+    ["ledger", ..rest] -> ledger.handle(rest)
+    ["ledgers", ..rest] -> ledger.handle(rest)
 
-    ["sub_account", ..rest] -> commands.sub_account(rest)
-    ["sub_accounts", ..rest] -> commands.sub_account(rest)
+    ["sub_account", ..rest] -> sub_account.handle(rest)
+    ["sub_accounts", ..rest] -> sub_account.handle(rest)
 
-    ["transaction", ..rest] -> commands.transaction(rest)
-    ["transactions", ..rest] -> commands.transaction(rest)
+    ["transaction", ..rest] -> transaction.handle(rest)
+    ["transactions", ..rest] -> transaction.handle(rest)
     [_, ..] -> panic as "unknown sub command"
   }
 }

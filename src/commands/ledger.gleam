@@ -30,3 +30,17 @@ pub fn create(args: List(String)) {
 
   let assert Ok(_) = ledgers.insert(ledger)
 }
+
+pub fn handle(arguments: List(String)) {
+  io.println("|> ledger")
+  let _ = case arguments {
+    ["create", ..args] -> {
+      let assert Ok(_) = create(args)
+      Nil
+    }
+    ["list"] -> list()
+    _ -> panic as "Unknown sub command for ledger"
+  }
+
+  Nil
+}

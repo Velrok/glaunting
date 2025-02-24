@@ -13,14 +13,30 @@ pub type Transaction {
     label: String,
     ledger_version: Int,
     ledger_id: Int,
-    normal_type: Movement,
+    movement: Movement,
     applied_at: Timestamp,
     effective_at: Timestamp,
   )
 }
 
-pub fn new() {
-  todo
+pub fn new(
+  label label: String,
+  ledger ledger: Ledger,
+  movement movement: Movement,
+  effective_at effective_at: Timestamp,
+  applied_at applied_at: Timestamp,
+) {
+  let assert Some(ledger_id) = ledger.id
+
+  Transaction(
+    id: None,
+    label:,
+    ledger_version: ledger.version + 1,
+    ledger_id: ledger_id,
+    movement:,
+    applied_at:,
+    effective_at:,
+  )
 }
 
 pub fn to_string(transaction: Transaction) -> String {

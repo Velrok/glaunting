@@ -46,3 +46,17 @@ pub fn create(args: List(String)) {
 
   let assert Ok(_) = sub_accounts.insert(sub_account)
 }
+
+pub fn handle(arguments: List(String)) {
+  io.println("|> sub_account")
+  let _ = case arguments {
+    ["create", ..args] -> {
+      let assert Ok(_) = create(args)
+      Nil
+    }
+    ["list"] -> list()
+    _ -> panic as "Unknown sub command for sub_account"
+  }
+
+  Nil
+}
