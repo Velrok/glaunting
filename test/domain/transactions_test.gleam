@@ -14,8 +14,8 @@ pub fn main() {
 pub fn new_test() {
   let ledger = ledgers.Ledger(id: Some(1), name: "LedgerA", version: 1)
   let movement = acounting.Debit
-  let assert Ok(effective_at) = timestamp.parse_rfc3339("2025-01-01")
-  let assert Ok(applied_at) = timestamp.parse_rfc3339("2025-01-02")
+  let effective_at = timestamp.from_unix_seconds(1_740_519_016)
+  let applied_at = timestamp.from_unix_seconds(1_740_519_816)
 
   new(label: "label", ledger:, movement:, effective_at:, applied_at:)
   |> should.equal(Transaction(
